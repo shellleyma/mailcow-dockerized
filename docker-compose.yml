@@ -18,7 +18,7 @@ services:
         - pdns-mailcow
       command: mysqld
       volumes:
-        - mysql-vol-1:/var/lib/mysql/
+        - ./data/volumes/mysql/:/var/lib/mysql/
         - ./data/conf/mysql/:/etc/mysql/conf.d/:ro
       dns:
         - 172.22.1.254
@@ -39,7 +39,7 @@ services:
       depends_on:
         - pdns-mailcow
       volumes:
-        - redis-vol-1:/data/
+        - ./data/volumes/redis/:/data/
       restart: always
       dns:
         - 172.22.1.254
@@ -57,7 +57,7 @@ services:
         - ./data/conf/rspamd/override.d/:/etc/rspamd/override.d:ro
         - ./data/conf/rspamd/local.d/:/etc/rspamd/local.d:ro
         - ./data/conf/rspamd/lua/:/etc/rspamd/lua/:ro
-        - dkim-vol-1:/data/dkim
+        - ./data/volumes/dkim:/data/dkim
       restart: always
       dns: 
         - 172.22.1.254
@@ -74,7 +74,7 @@ services:
       volumes:
         - ./data/web:/web:ro
         - ./data/conf/rspamd/dynmaps:/dynmaps:ro
-        - dkim-vol-1:/data/dkim
+        - ./data/volumes/dkim:/data/dkim
       dns:
         - 172.22.1.254
       dns_search: mailcow-network
@@ -134,7 +134,7 @@ services:
       volumes:
         - ./data/conf/dovecot:/etc/dovecot
         - ./data/assets/ssl:/etc/ssl/mail/:ro
-        - vmail-vol-1:/var/vmail
+        - ./data/volumes/vmail/:/var/vmail
       volumes_from:
         - sogo-mailcow
       environment:
@@ -229,8 +229,8 @@ networks:
         - subnet: 172.22.1.0/24
           gateway: 172.22.1.1
 
-volumes:
-  vmail-vol-1:
-  mysql-vol-1:
-  dkim-vol-1:
-  redis-vol-1:
+#volumes:
+#  vmail-vol-1:
+#  mysql-vol-1:
+#  dkim-vol-1:
+#  redis-vol-1:
